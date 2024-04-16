@@ -5,24 +5,74 @@
     <title>LY`s 博客</title>
 
     <style>
+        body, html {
+            margin: 0;
+            height: 100%;
+        }
+        #app {
+            padding: 10px;
+            height: calc(100% - 20px);
+        }
 
+        header {
+            padding: 2px;
+            background-color: rgba(32, 32, 34, 0.9);
+        }
+
+        .tag {
+            padding: 2px 7px;
+            margin: 2px;
+            background-color: rgba(50, 50, 51, 1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px 0px,
+                rgba(0, 0, 0, 0.075) 0px 2px 2px 0px,
+                rgba(0, 0, 0, 0.075) 0px 4px 4px 0px,
+                rgba(0, 0, 0, 0.075) 0px 8px 8px 0px,
+                rgba(0, 0, 0, 0.075) 0px 16px 16px 0px;
+        }
+        
+        content {
+        }
     </style>
 
+    <script>
+
+        // 获取用户代理字符串
+        var userAgent = navigator.userAgent;
+
+        // 判断是否为移动设备
+        var isMobile = /Mobi/.test(userAgent);
+
+        if (isMobile) {
+            // 如果是移动设备
+            alert("This is a mobile device");
+        }
+
+    </script>
 </head>
 <body>
     <div id="app">
         <header>
-
+            <button>三</button>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
+            <span class="tag">1</span>
         </header>
-        <menu>
-            
-        </menu>
         <content>
 
         </content>
     </div>
 
 <script src="https://liuyao_cool.gitee.io/jslib/vue/vue3.global.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/effectjs/mouseGerm.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/effectjs/bgRgbDown.js"></script>
 <script>
     const {createApp} = Vue;
     const vm = createApp({
