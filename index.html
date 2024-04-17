@@ -2,8 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>LY`s 博客</title>
+    <title>LY`s</title>
 
+    <link rel="stylesheet" href="https://liuyao_cool.gitee.io/jslib/effectjs/wag.css"/>
     <style>
         body, html {
             margin: 0;
@@ -33,6 +34,20 @@
                 rgba(0, 0, 0, 0.075) 0px 16px 16px 0px;
         }
         
+        menu {
+            background-color: #fbebeb2e;
+            box-shadow: #fbf5f59e 0px 0px 8px 0px;
+            backdrop-filter: blur(0px);
+            padding: 5px 0px;
+            z-index: 99;
+            font-size: 14px;
+            overflow: hidden auto;
+            width: fit-content;
+            height: fit-content;
+            color: white;
+            padding: 10px;
+        }
+
         content {
         }
     </style>
@@ -55,7 +70,7 @@
 <body>
     <div id="app">
         <header>
-            <button>三</button>
+            <button @click="showMenu=!showMenu">三</button>
             <span class="tag">1</span>
             <span class="tag">1</span>
             <span class="tag">1</span>
@@ -65,6 +80,11 @@
             <span class="tag">1</span>
             <span class="tag">1</span>
         </header>
+        <menu v-show="showMenu">
+            <ol style="padding-left: 16px;">
+                <li>spring</li>
+            </ol>
+        </menu>
         <content>
 
         </content>
@@ -78,6 +98,7 @@
     const vm = createApp({
         data() {
             return {
+                showMenu: true
             }
         },
         methods: {
