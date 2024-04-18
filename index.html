@@ -33,6 +33,9 @@
                 rgba(0, 0, 0, 0.075) 0px 8px 8px 0px,
                 rgba(0, 0, 0, 0.075) 0px 16px 16px 0px;
         }
+        .tag-active {
+            background-color: black;
+        }
         
         menu {
             background-color: #fbebeb2e;
@@ -71,40 +74,73 @@
     <div id="app">
         <header>
             <button @click="showMenu=!showMenu">三</button>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
-            <span class="tag">1</span>
+            <span class="tag" :class="k == showArticlesPath ? 'tag-active' : ''" v-for="(v, k) in articles">{{v[0]}}</span>
         </header>
         <menu v-show="showMenu">
-            <ol style="padding-left: 16px;">
-                <li>spring</li>
-            </ol>
+            <ul>
+                <li v-for="(item, i) in menu">{{item.name}}
+                    <ol>
+                        <li v-for="(child, j) in item.child" @click="openArticle(child[0], child[1])">{{child[0]}}</li>
+                    </ol>
+                </li>
+            </ul>
         </menu>
-        <content>
-
-        </content>
+        <div class="content" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v[1]"></div>
     </div>
 
 <script src="https://liuyao_cool.gitee.io/jslib/vue/vue3.global.js"></script>
 <script src="https://liuyao_cool.gitee.io/jslib/effectjs/mouseGerm.js"></script>
 <script src="https://liuyao_cool.gitee.io/jslib/effectjs/bgRgbDown.js"></script>
+<!-- markdown parse -->
+<script src="https://liuyao_cool.gitee.io/jslib/markdown/markdown-it.14.0.0.min.js"></script>
+<!-- code highlight -->
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/highlight.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/xml.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/properties.min.js"></script>
+
 <script>
     const {createApp} = Vue;
+    const md = markdownit({
+        highlight(code, lang, info) {
+            let preCode = hljs.getLanguage(lang) ? hljs.highlight(code, { language: lang }).value : code;
+            preCode = preCode.split('\n');
+            code = '<ol>';
+            for (let i = 0; i < preCode.length; i++) {
+                code += `<li>${preCode[i]}</li>`;
+            }
+            return code + '</ol>';
+        }
+    });
     const vm = createApp({
         data() {
             return {
-                showMenu: true
+                menu: [], // articles.json
+                showMenu: true,
+                showArticlesPath: '',
+                // {path: [name, html]}
+                articles: {}
             }
         },
+        created() {
+            getFileText('articles.json', text => this.menu = JSON.parse(text));
+        },
         methods: {
-
+            openArticle(name, path) {
+                if (!this.articles[path]) {
+                    this.articles[path] = [name, '加载中...'];
+                    let that = this;
+                    getFileText(path, text => that.articles[path][1] = md.render(text));
+                }
+                this.showArticlesPath = path;
+            }
         }
-    }).mount('#app');;
+    }).mount('#app');
+
+    function getFileText(path, success) {
+        fetch(path).then(resp => {
+            if(resp.ok) resp.text().then(str => success(str));
+        });
+    }
 </script>
 
 </body>
