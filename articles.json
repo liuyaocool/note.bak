@@ -5,5 +5,11 @@
             ["初识", "spring/01-first.md"]
         ]
 
+    },{
+        "name": "其他",
+        "child": [
+            ["git", "other/git.md"]
+        ]
+
     }
 ]
