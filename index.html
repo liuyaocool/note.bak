@@ -16,11 +16,14 @@
         }
 
         header {
-            padding: 2px;
-            background-color: rgba(32, 32, 34, 0.9);
+            padding: 2px 18px;
+            background-color: rgba(230, 230, 234, 0.23);
+            backdrop-filter: blur(10px);
+            border-radius: 6px;
         }
 
         .tag {
+            color: white;
             padding: 2px 7px;
             margin: 2px;
             background-color: rgba(50, 50, 51, 1);
@@ -40,7 +43,9 @@
         menu {
             background-color: #fbebeb2e;
             box-shadow: #fbf5f59e 0px 0px 8px 0px;
-            backdrop-filter: blur(0px);
+            backdrop-filter: blur(3px);
+            position: absolute;
+            top: 35px;
             padding: 5px 0px;
             z-index: 99;
             font-size: 14px;
@@ -51,7 +56,33 @@
             padding: 10px;
         }
 
-        content {
+        .content {
+            position: absolute;
+            top: 45px;
+            bottom: 5px;
+            width: calc(100% - 20px);
+            color: white;
+        }
+
+        .content pre {
+            border: solid 1px blueviolet;
+            border-radius: 5px;
+            /* overflow-x: auto; */
+            /* background-color: aquamarine; */
+            white-space: pre-wrap;
+        }
+
+        .code-ol {
+            font-family: "source code pro";
+        }
+
+        code {
+            color: aqua;
+            font-family: "source code pro";
+        }
+
+        code ol {
+            margin: 0;
         }
     </style>
 
@@ -73,8 +104,8 @@
 <body>
     <div id="app">
         <header>
-            <button @click="showMenu=!showMenu">三</button>
-            <span class="tag" :class="k == showArticlesPath ? 'tag-active' : ''" v-for="(v, k) in articles">{{v[0]}}</span>
+            <button @click="showMenu=!showMenu">LY</button>
+            <span class="tag" :class="k == showArticlesPath ? 'tag-active' : ''" v-for="(v, k) in articles" @click="openArticle(null, k)">{{v[0]}}</span>
         </header>
         <menu v-show="showMenu">
             <ul>
@@ -104,8 +135,9 @@
         highlight(code, lang, info) {
             let preCode = hljs.getLanguage(lang) ? hljs.highlight(code, { language: lang }).value : code;
             preCode = preCode.split('\n');
-            code = '<ol>';
+            code = '<ol class="code-ol">';
             for (let i = 0; i < preCode.length; i++) {
+                if(i == preCode.length-1 && !preCode[i]) break;
                 code += `<li>${preCode[i]}</li>`;
             }
             return code + '</ol>';
@@ -128,10 +160,10 @@
             openArticle(name, path) {
                 if (!this.articles[path]) {
                     this.articles[path] = [name, '加载中...'];
-                    let that = this;
-                    getFileText(path, text => that.articles[path][1] = md.render(text));
+                    getFileText(path, text => this.articles[path][1] = md.render(text));
                 }
                 this.showArticlesPath = path;
+                this.showMenu = false;
             }
         }
     }).mount('#app');
