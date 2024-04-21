@@ -6,6 +6,14 @@
         ]
 
     },{
+        "name": "linux",
+        "child": [
+            ["基础", "linux/linux.md"],
+            ["设置", "linux/linux_setting.md"],
+            ["软件", "linux/linux_soft.md"]
+        ]
+
+    },{
         "name": "其他",
         "child": [
             ["git", "other/git.md"]
