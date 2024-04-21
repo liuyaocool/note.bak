@@ -9,6 +9,15 @@
 ```shell
 # 关闭自动更新
 zstyle ':omz:update' mode disabled
+DISABLE_MAGIC_FUNCTIONS=true
+
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="agnoster"
+
+plugins=(git zsh-autosuggestions)
+
+source $ZSH/oh-my-zsh.sh
 ```
 
 ## 美化 ohmyzsh
