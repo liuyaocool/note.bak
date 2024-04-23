@@ -6,7 +6,7 @@
 
 `vi .zshrc`
 
-```shell
+```bash
 # 关闭自动更新
 zstyle ':omz:update' mode disabled
 DISABLE_MAGIC_FUNCTIONS=true
@@ -23,7 +23,7 @@ source $ZSH/oh-my-zsh.sh
 ## 美化 ohmyzsh
 
 
-```shell
+```bash
 git clone https://github.com/ohmyzsh/ohmyzsh.git
 # 执行
 ./tools/install.sh
@@ -38,7 +38,7 @@ ZSH_THEME="agnoster"
 ```
 **修改主题：agoster**
 
-```sh
+```bash
 vi ~/.oh-my-zsh/themes/agnoster.zsh-theme
 ## ------------- 修改 ------
 # Context: user@hostname (who am I and where am I)
@@ -52,7 +52,7 @@ prompt_context() {
 
 **修改主题：rkj-repos**
 
-```sh
+```bash
 vi ~/.oh-my-zsh/themes/rkj-repos.zsh-theme
 ## ------------ 修改 ---------
 PROMPT=$'%{$fg_bold[blue]%}┌─[%{$fg_bold[green]%}%n%b %b%{$fg[yellow]%}'%D{"%m/%d %I:%M:%S"}%b$'%{$fg_bold[blue]%}]%{$reset_color%} - %{$fg_bold[blue]%}[%{$fg_bold[default]%}%~%{$fg_bold[blue]%}]
@@ -62,7 +62,7 @@ PROMPT=$'%{$fg_bold[blue]%}┌─[%{$fg_bold[green]%}%n%b %b%{$fg[yellow]%}'%D{"
 
 **自动转义问题**
 
-```shell
+```bash
 cat ~/.oh-my-zsh/lib/misc.zsh
 # 有一行 if [[ $DISABLE_MAGIC_FUNCTIONS != true ]]; then
 
@@ -75,7 +75,7 @@ vi ~/.zshrc
 
 ## 插件1: 自动补全插件
 
-```sh
+```bash
 # https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md#oh-my-zsh
 vi ~/.zshrc
     # 添加变量

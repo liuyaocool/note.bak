@@ -5,7 +5,7 @@
 
 # 启动脚本
 
-```shell
+```bash
 #!/bin/bash
 
 if test -z "${XDG_RUNTIME_DIR}"; then
@@ -41,7 +41,7 @@ waybarc
 
 ## 启动脚本
 
-```shell
+```bash
 #!/bin/bash
 cp=${HOME}/.config/waybar
 lib_p=${HOME}/bin/wayland/waybar-lib

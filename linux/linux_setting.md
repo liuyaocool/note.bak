@@ -5,7 +5,7 @@
 ### 服务端
 
 **修改配置**
-```shell
+```bash
 sudo vi /etc/ssh/sshd_config
 
     # ----- 修改 -------
@@ -25,7 +25,7 @@ service sshd restart
 
 **创建文件**
 
-``` shell
+```bash
 # 如果没有 .ssh 路径
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
@@ -36,7 +36,7 @@ chmod 600 ~/.ssh/authorized_keys
 
 ### 客户端
 
-```shell
+```bash
 # 1. 生成密钥
 ssh-keygen -t ed25519
 # 2. 公钥上传至服务器
