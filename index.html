@@ -17,16 +17,48 @@
             margin: 0;
             height: 100%;
         }
+        html {
+            background-color: black;
+        }
         #app {
             padding: 10px;
             height: calc(100% - 20px);
+            position: relative;
         }
 
-        header {
-            padding: 2px 18px;
+        .box {
             background-color: rgba(230, 230, 234, 0.23);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             border-radius: 6px;
+        }
+
+        
+        .content, .title, .header {
+            position: fixed;
+            background-color: rgba(52, 66, 63, 0.39);
+            backdrop-filter: blur(29px);
+            border-radius: 6px;
+        }
+        .header {
+            padding: 2px 18px;
+            top: 10px;
+            z-index: 2;
+        }
+        .content, .title { 
+            top: 50px; 
+            bottom: 5px; 
+            padding: 9px 18px;
+            color: white;
+            overflow: auto;
+        }
+        .header, .content { left: 10px; }
+        .header, .title { right: 15px; }
+        .content {
+            right: 300px;
+            color: white;
+        }
+        .title {
+            width: 236px;
         }
 
         .tag {
@@ -48,10 +80,10 @@
         }
         
         menu {
-            background-color: #fbebeb2e;
-            box-shadow: #fbf5f59e 0px 0px 8px 0px;
-            backdrop-filter: blur(3px);
-            position: absolute;
+            background-color: #312b2b99;
+            box-shadow: #b9adad9e 0px 0px 8px 0px;
+            backdrop-filter: blur(8px);
+            position: fixed;
             top: 35px;
             padding: 5px 0px;
             z-index: 99;
@@ -63,25 +95,13 @@
             padding: 10px;
         }
 
-        .content {
-            position: absolute;
-            top: 45px;
-            bottom: 5px;
-            width: calc(100% - 20px);
-            color: white;
-        }
-
         .content pre {
-            /* border: solid 1px blueviolet; */
-            background-color: #938f8f1c;
-            backdrop-filter: blur(19px);
+            /* background-color: #938f8f2b; */
+            /* backdrop-filter: blur(19px); */
+            background-color: #0000004f;
             border-radius: 5px;
             padding: 8px;
             white-space: pre-wrap;
-        }
-
-        .code-ol {
-            font-family: "source code pro";
         }
 
         code {
@@ -118,10 +138,10 @@
 </head>
 <body>
     <div id="app">
-        <header>
+        <div class="header">
             <button @click="showMenu=!showMenu">LY</button>
             <span class="tag" :class="k == showArticlesPath ? 'tag-active' : ''" v-for="(v, k) in articles" @click="openArticle(null, k)">{{v[0]}}</span>
-        </header>
+        </div>
         <menu v-show="showMenu">
             <ul>
                 <li v-for="(item, i) in menu">{{item.name}}
@@ -132,6 +152,7 @@
             </ul>
         </menu>
         <div class="content" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v[1]"></div>
+        <div class="title" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v[2]"></div>
     </div>
 
 <script src="https://liuyao_cool.gitee.io/jslib/vue/vue3.global.js"></script>
@@ -141,8 +162,16 @@
 <script src="https://liuyao_cool.gitee.io/jslib/markdown/markdown-it.14.0.0.min.js"></script>
 <!-- code highlight -->
 <script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/highlight.min.js"></script>
-<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/xml.min.js"></script>
+<!-- code highlight support language -->
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/bash.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/c.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/cpp.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/css.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/java.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/javascript.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/json.min.js"></script>
 <script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/properties.min.js"></script>
+<script src="https://liuyao_cool.gitee.io/jslib/highlight.11.9.0/languages/xml.min.js"></script>
 
 <script>
     const {createApp} = Vue;
@@ -164,8 +193,9 @@
                 version: '0.1',
                 menu: [], // articles.json
                 showMenu: true,
+                showTitle: false,
                 showArticlesPath: '',
-                // {path: [name, html]}
+                // {path: [name, html, title]}
                 articles: {}
             }
         },
@@ -175,11 +205,23 @@
         methods: {
             openArticle(name, path) {
                 if (!this.articles[path]) {
-                    this.articles[path] = [name, '加载中...'];
-                    this.getFileText(path, text => this.articles[path][1] = md.render(text));
+                    this.articles[path] = [name, '加载中...', '加载中'];
+                    let that = this;
+                    this.getFileText(path, text => this.setArticle(path, text));
                 }
                 this.showArticlesPath = path;
                 this.showMenu = false;
+            },
+            setArticle(path, text) {
+                this.articles[path][1] = md.render(text);
+                let titleHtml = '';
+                let temp = document.createElement('div');
+                temp.innerHTML = this.articles[path][1];
+                temp = temp.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                for (let i = 0; i < temp.length; i++) {
+                    titleHtml += temp[i].outerHTML;
+                }
+                this.articles[path][2] = titleHtml;
             },
             getFileText(path, success) {
                 fetch(`${path}?v=${this.version}`).then(resp => {
