@@ -2,18 +2,50 @@
 
 ## 免密登录
 
-**服务端**
+### 服务端
+
+**修改配置**
+```shell
+sudo vi /etc/ssh/sshd_config
+
+    # ----- 修改 -------
+    RSAAuthentication yes
+    PubkeyAuthentication yes
+    # 密码不能为空
+    PermitEmptyPasswords no
+    #AuthorizedKeysFile .ssh/authorized_keys
+    # 关闭密码登录 建议关闭
+    PasswordAuthentication no
+    # 是否允许root用户通过SSH登录
+    PermitRootLogin yes
+
+# 重启 ssh
+service sshd restart
+```
+
+**创建文件**
 
 ``` shell
+# 如果没有 .ssh 路径
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
 touch ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-**客户端**
+### 客户端
 
 ```shell
+# 1. 生成密钥
 ssh-keygen -t ed25519
+# 2. 公钥上传至服务器
 # ~/.ssh/id_ed25519.pub 内文本复制到服务端~/.ssh/authorized_keys文件内
+# or 
+ssh-copy-id -p {port} {remote user}@{remote host}
+
+# 3. 指定私钥文件登录
+ssh -p {port} -i "/home/{user}/.ssh/id_ed25519" {remote user}@{remote host}
 ```
 
 **登录报错**

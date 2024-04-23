@@ -5,6 +5,15 @@
     <title>LY`s</title>
 
     <link rel="stylesheet" href="https://liuyao_cool.gitee.io/jslib/effectjs/wag.css"/>
+    <!-- 亮 花花 -->
+    <!-- <link rel="stylesheet" href="test/res/highlight/styles/gradient-dark.min.css"/> -->
+    <!-- 暗花花 -->
+    <link rel="stylesheet" href="test/res/highlight/styles/night-owl.min.css"/>
+    <!-- 亮 黄紫 白 -->
+    <!-- <link rel="stylesheet" href="test/res/highlight/styles/qtcreator-dark.min.css"/> -->
+    <!-- 淡 蓝 系 -->
+    <!-- <link rel="stylesheet" href="test/res/highlight/styles/vs2015.min.css"/> -->
+
     <style>
         body, html {
             margin: 0;
@@ -65,10 +74,11 @@
         }
 
         .content pre {
-            border: solid 1px blueviolet;
+            /* border: solid 1px blueviolet; */
+            background-color: #938f8f1c;
+            backdrop-filter: blur(19px);
             border-radius: 5px;
-            /* overflow-x: auto; */
-            /* background-color: aquamarine; */
+            padding: 8px;
             white-space: pre-wrap;
         }
 
@@ -77,12 +87,19 @@
         }
 
         code {
-            color: aqua;
             font-family: "source code pro";
+        }
+
+        code:not([class]) {
+            color: aqua;
         }
 
         code ol {
             margin: 0;
+        }
+
+        .content ol li::marker {
+           color: #80ff00;
         }
     </style>
 
@@ -146,6 +163,7 @@
     const vm = createApp({
         data() {
             return {
+                version: '0.1',
                 menu: [], // articles.json
                 showMenu: true,
                 showArticlesPath: '',
@@ -154,25 +172,25 @@
             }
         },
         created() {
-            getFileText('articles.json', text => this.menu = JSON.parse(text));
+            this.getFileText('articles.json', text => this.menu = JSON.parse(text));
         },
         methods: {
             openArticle(name, path) {
                 if (!this.articles[path]) {
                     this.articles[path] = [name, '加载中...'];
-                    getFileText(path, text => this.articles[path][1] = md.render(text));
+                    this.getFileText(path, text => this.articles[path][1] = md.render(text));
                 }
                 this.showArticlesPath = path;
                 this.showMenu = false;
+            },
+            getFileText(path, success) {
+                fetch(`${path}?v=${this.version}`).then(resp => {
+                    if(resp.ok) resp.text().then(str => success(str));
+                });
             }
         }
     }).mount('#app');
 
-    function getFileText(path, success) {
-        fetch(path).then(resp => {
-            if(resp.ok) resp.text().then(str => success(str));
-        });
-    }
 </script>
 
 </body>
