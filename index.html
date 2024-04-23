@@ -102,6 +102,7 @@
             border-radius: 5px;
             padding: 8px;
             white-space: pre-wrap;
+            position: relative;
         }
 
         code {
@@ -118,6 +119,15 @@
 
         .content ol li::marker {
            color: #80ff00;
+        }
+
+        .language-tip {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            color: gray;
+            font-size: 12px;
+            user-select: none;
         }
     </style>
 
@@ -179,7 +189,7 @@
         highlight(code, lang, info) {
             let preCode = hljs.getLanguage(lang) ? hljs.highlight(code, { language: lang }).value : code;
             preCode = preCode.split('\n');
-            code = '<ol class="code-ol">';
+            code = `<span class="language-tip">${lang}</span><ol class="code-ol">`;
             for (let i = 0; i < preCode.length; i++) {
                 if(i == preCode.length-1 && !preCode[i]) break;
                 code += `<li>${preCode[i]}</li>`;
