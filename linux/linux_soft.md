@@ -88,3 +88,23 @@ vi ~/.zshrc
 ```
 
 # ranger 文件浏览器
+
+# Vim
+
+## 配置
+
+`vim ~/.vimrc`
+
+```bash
+set mouse=          " 关闭鼠标指针
+syntax on           " 语法高亮
+set tabstop=4       " 设置制表符宽度为 4
+set shiftwidth=4    " 设置自动缩进宽度为 4
+" set expandtab       " 将制表符扩展为空格
+```
+
+## 格式化代码
+
+1. 下载 `https://gitee.com/liuyao_cool/vim-autoformat/tree/master/plugin` 下的文件
+2. 将 `*.vim` 复制到 `~/.vim/plugin` 下
+3. 重新 `vim` 一个文件, 输入 `:Autoformat` 即可格式化代码
