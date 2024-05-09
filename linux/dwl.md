@@ -1,5 +1,7 @@
 # 依赖
 
+若编译失败 检查依赖是否安装
+
 - wlroots
 - wayland-protocols
 
