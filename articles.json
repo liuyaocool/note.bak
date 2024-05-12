@@ -14,6 +14,11 @@
         ]
 
     },{
+        "name": "nginx",
+        "child": [
+            ["基础", "nginx/nginx.md"]
+        ]
+    },{
         "name": "其他",
         "child": [
             ["mac", "other/mac.md"],
