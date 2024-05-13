@@ -207,22 +207,27 @@
                 showMenu: true,
                 showTitle: false,
                 showArticlesPath: '',
-                // {path: [name, html, title]}
+                // {path: [name, html, markdown title]}
                 articles: {}
             }
         },
         created() {
-            this.getFileText('articles.json', text => this.menu = JSON.parse(text));
+            this.getFileText('articles.json', text => {
+                this.menu = JSON.parse(text)
+                if (location.hash) {
+                    this.openByPath(location.hash.substr(1));
+                }
+            });
         },
         methods: {
             openArticle(name, path) {
                 if (!this.articles[path]) {
                     this.articles[path] = [name, '加载中...', '加载中'];
-                    let that = this;
                     this.getFileText(path, text => this.setArticle(path, text));
                 }
                 this.showArticlesPath = path;
                 this.showMenu = false;
+                location.hash = path;
             },
             setArticle(path, text) {
                 this.articles[path][1] = md.render(text);
@@ -234,6 +239,17 @@
                     titleHtml += temp[i].outerHTML;
                 }
                 this.articles[path][2] = titleHtml;
+            },
+            openByPath(path) {
+                if (!path) return;
+                for (let i = 0; i < this.menu.length; i++) {
+                    for (let j = 0; j < this.menu[i].child.length; j++) {
+                        if (this.menu[i].child[j][1] == path) {
+                            this.openArticle(this.menu[i].child[j][0], path)
+                            return;
+                        }
+                    }
+                }
             },
             getFileText(path, success) {
                 fetch(`${path}?v=${this.version}`).then(resp => {
