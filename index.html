@@ -129,6 +129,30 @@
             font-size: 12px;
             user-select: none;
         }
+
+        .title {
+            color: gray;
+            font-size: 14px;
+        }
+        .title > div {
+            cursor: pointer;
+        }
+        .title > div:hover {
+            background-color: rgba(255,255,255, 0.1);
+        }
+        .title-1 {
+            font-size: 18px;
+            color: white;
+            border-top: solid 1px white;
+        }
+
+        /* .title-1 { color: red;} */
+        /* .title-2 { color: orange;} */
+        /* .title-3 { color: yellow;} */
+        /* .title-4 { color: green;} */
+        /* .title-5 { color: blue;} */
+        /* .title-6 { color: purple;} */
+
     </style>
 
     <script>
@@ -162,7 +186,9 @@
             </ul>
         </menu>
         <div class="content" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v[1]"></div>
-        <div class="title" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v[2]"></div>
+        <div class="title" v-for="(v, k) in articles" v-show="k == showArticlesPath">
+            <div v-for="(item, i) in v[2]" :style="item[3]" :class="'title-'+item[2]" @click="jumpTo(item[1])">{{item[0]}}</div>
+        </div>
     </div>
 
 <!-- <script src="https://cdn.jsdelivr.net/gh/liuyaocool/jslib/vue/vue3.global.js"></script> -->
@@ -207,7 +233,7 @@
                 showMenu: true,
                 showTitle: false,
                 showArticlesPath: '',
-                // {path: [name, html, markdown title]}
+                // {path: [name, html, [[text, tid, h level:1,2,3,4,5,6, {style}], ...] ]}
                 articles: {}
             }
         },
@@ -234,11 +260,22 @@
                 let titleHtml = '';
                 let temp = document.createElement('div');
                 temp.innerHTML = this.articles[path][1];
-                temp = temp.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                for (let i = 0; i < temp.length; i++) {
-                    titleHtml += temp[i].outerHTML;
+                let titles = temp.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                let titlesHtml = [];
+                let sty, level;
+                for (let i = 0; i < titles.length; i++) {
+                    level = titles[i].tagName.charAt(1)*1;
+                    sty = level < 3 ? {} : {'padding-left': (level-2) * 20 + 'px'};
+                    titles[i].id = `title-id-${i}`;
+                    titlesHtml.push([titles[i].innerText, titles[i].id, level, sty]);
                 }
-                this.articles[path][2] = titleHtml;
+                this.articles[path][1] = temp.outerHTML;
+                this.articles[path][2] = titlesHtml;
+            },
+            jumpTo(id) {
+                var section = document.getElementById(id);
+                // 使用 scrollIntoView 方法滚动页面使得指定元素可见
+                section.scrollIntoView({ behavior: 'smooth' });
             },
             openByPath(path) {
                 if (!path) return;
