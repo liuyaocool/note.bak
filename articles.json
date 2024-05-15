@@ -6,6 +6,11 @@
         ]
 
     },{
+        "name": "java",
+        "child": [
+            ["设计模式", "java/design_patterns.md"]
+        ]
+    },{
         "name": "linux",
         "child": [
             ["基础", "linux/linux.md"],
@@ -14,6 +19,11 @@
         ]
 
     },{
+        "name": "虚拟化技术",
+        "child": [
+            ["podman", "virtual/podman.md"]
+        ]
+    },{
         "name": "nginx",
         "child": [
             ["基础", "nginx/nginx.md"]
@@ -21,6 +31,7 @@
     },{
         "name": "其他",
         "child": [
+            ["test", "test/test.md"],
             ["mac", "other/mac.md"],
             ["git", "other/git.md"]
         ]
