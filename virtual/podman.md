@@ -63,7 +63,7 @@ printf "%-${column1_width}s %-10s %-10s\n" "Name" "Stars" "Official"
 printf "%*s\n" $terminal_width | tr ' ' '-'
 
 # $@ 获得所有参数
-podman search $@ --format "{{.Name}}\t{{.Stars}}\t{{.Official}}"  | \
+podman search $@ --filter stars=1 --format "{{.Name}}\t{{.Stars}}\t{{.Official}}"  | \
 awk -v col1_width="$column1_width" 'BEGIN { FS="\t" } {printf "%-*s %-10s %-10s\n", col1_width, $1, $2, $3}' | \
 sort -k2rn
 ```
