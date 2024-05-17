@@ -1,5 +1,14 @@
 [
     {
+        "name": "算法",
+        "child": [
+            ["基础", "algorithm/00-base.md"],
+            ["数据结构", "algorithm/01-data_struct.md"],
+            ["排序", "algorithm/02-sort.md"],
+            ["二进制", "algorithm/03-bit.md"]
+        ]
+
+    },{
         "name": "spring源码解析",
         "child": [
             ["初识", "spring/01-first.md"]
