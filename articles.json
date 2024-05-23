@@ -24,7 +24,9 @@
         "child": [
             ["基础", "linux/linux.md"],
             ["设置", "linux/linux_setting.md"],
-            ["软件", "linux/linux_soft.md"]
+            ["软件", "linux/linux_soft.md"],
+            ["termux", "linux/termux.md"],
+            ["kde", "linux/plasma.md"]
         ]
 
     },{
@@ -40,7 +42,7 @@
     },{
         "name": "其他",
         "child": [
-            ["test", "test/test.md"],
+            ["软件配置", "other/soft_setting.md"],
             ["mac", "other/mac.md"],
             ["git", "other/git.md"]
         ]
