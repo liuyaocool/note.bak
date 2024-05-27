@@ -33,7 +33,148 @@
 
 ## B+Tree
 
-## Hash表   (k,v)表
+# 完全二叉树
+
+除最后一层， 所有上层全部饱满， 且最后一层从第一个到最后一个之间 中间没有空余
+
+如:
+
+```
+     2
+   /   \
+  1     3     是
+ / \   / \
+5   6 7   8
+
+     2
+   /   \
+  1     3     是
+ / \ 
+5   6
+
+     2
+   /   \
+  1     3     不是
+ / \   / \
+5   6     8
+```
+
+## 大跟堆、小跟堆
+
+完全二叉树的 所有子树的跟(头)节点 是整个子树的最大值, 即大跟堆; 反之 是最小值 是小跟堆.
+
+```java
+// java中 此类 默认是小跟堆， 通过不同构造可实线大跟堆
+PriorityQueue<Integer> heap = new PriorityQueue<>();
+heap.peek(); // 获得头
+```
+
+如:
+
+```
+     8
+   /   \
+  5     7     是 大跟堆
+ / \   / \
+4   1 3   6
+
+     8
+   /   \
+  8     7     是 大跟堆
+ / \   / \
+4   1 3   
+
+     8
+   /   \
+  1     3     不是 大跟堆: 1 -> 5,6中 1不是当前子树的最大值 
+ / \   / \
+5   6 2   1
+```
+
+## 数组实现大跟堆
+
+**数组下标图示**
+
+```
+数组下标: [0, 1, 2, 3, 4, 5, 6， null...]
+heapSize = 7;
+
+     0
+   /   \
+  1     2     下标
+ / \   / \
+3   4 5   6
+
+知道某一位置下标i, 则
+左子节点下标 = 2 * i + 1
+右子节点下标 = 2 * i + 2
+父节点下标  = (i - 1) / 2
+
+下标计算图示:
+       (i-1)/2
+      /       \
+     i        i+1
+  /     \
+2*i+1  2*i+2
+
+   (i-1)/2
+  /       \
+i-1        i
+        /     \
+      2*i+1  2*i+2
+
+```
+
+**代码**
+
+```java
+public void swap(int[] arr, int index1, int index2) {
+   arr[index1] ^= arr[index2];
+   arr[index2] ^= arr[index2];
+   arr[index1] ^= arr[index2];
+}
+
+/**
+ * 上浮 
+ * 时间复杂度: O(log_n), 数的层数是 log_n, 最多需要上浮 log_n层
+ * @param arr 数组模拟的堆
+ * @param index 新数的位置
+ */
+public void heapInsert(int[] arr, int index) {
+   int parentIndex;
+   while (arr[index] > arr[parentIndex = (index - 1) / 2]) {
+      swap(arr, index, parentIndex);
+      index = parentIndex;
+   }
+}
+
+/**
+ * 下沉
+ * 时间复杂度: O(log_n)
+ * @param arr 数组模拟的堆
+ * @param index 新数的位置
+ */
+public void heapify(int[] arr, int heapSize, int index) {
+   int li = 2 * index + 1, ri = li + 1;
+   while (li < heapSize) {
+      // 有右孩子 且 右孩子大于左孩子, 取右孩子
+      li = ri < heapSize && arr[li] < arr[ri] ? ri : li; // 数大的孩子
+      if (arr[li] < arr[index]) {
+            break;
+      }
+      swap(arr, li, index);
+      index = li;
+      li = 2 * index + 1;
+      ri = li + 1;
+   }
+}
+```
+
+
+### heapify
+
+
+# Hash表   (k,v)表
 
 HashMap  增删改查 都是O(1) 但常数时间是比较大的
 
@@ -43,7 +184,7 @@ HashMap  增删改查 都是O(1) 但常数时间是比较大的
 2. 按引用传递：非原生类型，如 new Person()， k为内存地址
    - k，v都为引用， 则hash表这条数据为 8+8=16字节
 
-## 有序表
+# 有序表
 
 TreeMap  增删改查 都是logN
 
@@ -53,7 +194,7 @@ TreeMap  增删改查 都是logN
 2. floorKey(key)    -- <=key的最近的key
 3. ceilingKey(key)    -- >=key的最近的key
 
-## 跳表
+# 跳表
 
 ConcurrentSkipListMap
 
