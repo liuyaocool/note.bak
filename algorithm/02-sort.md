@@ -80,7 +80,6 @@ master = 2 * T(N/2) + O(N);  两半为 T(N/2), O(N) 为merge
 ```
 
 
-
 # TIM SORT
 
 java内部 对象排序（要求稳定）使用的是改进的归并排序 叫TIM SORT
@@ -94,3 +93,44 @@ java内部 对象排序（要求稳定）使用的是改进的归并排序 叫TI
 # 双轴快排：
 
 Arrays.sort(基础数据类型)
+
+# 堆排序
+
+预习: 大跟堆 小跟堆 见数据结构
+
+```java
+public void heapSort(int arr[]) {
+    // 1. 转换大跟堆
+    // 方式1: 下沉 O(n*log_n)
+    // for (int i = 0; i < arr.length; i++) {
+    //     heapInsert(arr, i);
+    // }
+    /*
+     * 方式2: 上浮 O(n)
+     *      树        当前层时间复杂度
+     *       x          1 * log_n    
+     *     /   \        ...
+     *    x     x       n/4 * 2   --每上一层 数量/2 下浮次数+1
+     *   / \   / \
+     *  x   x x   x     n/2 * 1   --当前层约等于
+     * 
+     * 得 O(n) = n/2*1 + n/4*2 + n/8*3 ....
+     *                \       \
+     *   2O(n) = n*1 + n/2*2 + n/4*3 ....
+     * 错位相减
+     *    O(n) = n + n/2 + n/4 + ... n/(n-1 or n);
+     * ==>
+     *    O(n) = n;
+     */
+    for (int i = arr.length - 1; i >= 0; i--) {
+        heapify(arr, arr.length, i);
+    }
+
+    // 2. 堆上头节点跟最后一个元素交换， 然后下浮
+    int heapSize = arr.length;
+    do {
+        swap(arr, --heapSize, 0);
+        heapify(arr, heapSize, 0);
+    } while (heapSize > 0);
+}
+```
