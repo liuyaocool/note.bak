@@ -30,9 +30,11 @@ git clone https://github.com/ohmyzsh/ohmyzsh.git
 # 安装路径 ~/.oh-my-zsh/
 
 # 修改主题
-vi ~/.zshrc
+vim ~/.zshrc
 ## ---------- 修改 ----------
 ZSH_THEME="agnoster"
+# 'foot': unknown terminal type
+export TERM=xterm-256color
 ## ---------- end ----------
 
 ```

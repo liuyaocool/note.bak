@@ -129,9 +129,9 @@ i-1        i
 
 ```java
 public void swap(int[] arr, int index1, int index2) {
-   arr[index1] ^= arr[index2];
-   arr[index2] ^= arr[index2];
-   arr[index1] ^= arr[index2];
+	arr[index1] ^= arr[index2];
+	arr[index2] ^= arr[index1];
+	arr[index1] ^= arr[index2];
 }
 
 /**
@@ -169,10 +169,6 @@ public void heapify(int[] arr, int heapSize, int index) {
    }
 }
 ```
-
-
-### heapify
-
 
 # Hash表   (k,v)表
 
