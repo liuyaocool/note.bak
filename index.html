@@ -178,7 +178,7 @@
     <div id="app">
         <div class="header">
             <button @click="showMenu=!showMenu">LY</button>
-            <span class="tag" :class="k == showArticlesPath ? 'tag-active' : ''" v-for="(v, k) in articles" @click="openArticle(null, k)">{{v[0]}}</span>
+            <span class="tag" :class="k == showArticlesPath ? 'tag-active' : ''" v-for="(v, k) in articles" @click="openArticle(null, k)">{{v.name}}</span>
         </div>
         <menu v-show="showMenu">
             <ul>
@@ -189,9 +189,9 @@
                 </li>
             </ul>
         </menu>
-        <div class="content" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v[1]"></div>
+        <div class="content" v-for="(v, k) in articles" v-show="k == showArticlesPath" v-html="v.html"></div>
         <div class="title" v-for="(v, k) in articles" v-show="k == showArticlesPath">
-            <div v-for="(item, i) in v[2]" :style="item[3]" :class="'title-'+item[2]" @click="jumpTo(item[1])">{{item[0]}}</div>
+            <div v-for="(v2, k2) in v.titles" :style="v2.style" :class="'title-'+v2.level" @click="jumpTo(v2.id)">{{v2.name}}</div>
         </div>
     </div>
 
@@ -237,6 +237,20 @@
                 showMenu: true,
                 showTitle: false,
                 showArticlesPath: '',
+                /**
+                 *  {
+                 *      path: {
+                 *          name: '',
+                 *          html: '',
+                 *          titles: [{
+                 *              id: '',
+                 *              name: '',
+                 *              style: {},
+                 *              level: 1, // 1~6
+                 *          }]
+                 *      }
+                 *  }
+                 */
                 // {path: [name, html, [[text, tid, h level:1,2,3,4,5,6, {style}], ...] ]}
                 articles: {}
             }
@@ -252,7 +266,11 @@
         methods: {
             openArticle(name, path) {
                 if (!this.articles[path]) {
-                    this.articles[path] = [name, '加载中...', '加载中'];
+                    this.articles[path] = {
+                        name: name,
+                        html: '加载中...',
+                        titles: []
+                    };
                     this.getFileText(path, text => this.setArticle(path, text));
                 }
                 this.showArticlesPath = path;
@@ -260,21 +278,23 @@
                 location.hash = path;
             },
             setArticle(path, text) {
-                this.articles[path][1] = md.render(text);
-                let titleHtml = '';
                 let temp = document.createElement('div');
-                temp.innerHTML = this.articles[path][1];
+                temp.innerHTML = md.render(text);;
                 let titles = temp.querySelectorAll('h1, h2, h3, h4, h5, h6');
-                let titlesHtml = [];
-                let sty, level;
+                let titlesHtml = this.articles[path].titles;
+                let sty, level, idPre = Date.now();
                 for (let i = 0; i < titles.length; i++) {
                     level = titles[i].tagName.charAt(1)*1;
                     sty = level < 3 ? {} : {'padding-left': (level-2) * 20 + 'px'};
-                    titles[i].id = `title-id-${i}`;
-                    titlesHtml.push([titles[i].innerText, titles[i].id, level, sty]);
+                    titles[i].id = `${idPre}-${i}`;
+                    titlesHtml.push({
+                        id: titles[i].id,
+                        name: titles[i].innerText,
+                        style: sty,
+                        level: level
+                    });
                 }
-                this.articles[path][1] = temp.outerHTML;
-                this.articles[path][2] = titlesHtml;
+                this.articles[path].html = temp.outerHTML;
             },
             jumpTo(id) {
                 var section = document.getElementById(id);
