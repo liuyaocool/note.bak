@@ -170,6 +170,20 @@ public void heapify(int[] arr, int heapSize, int index) {
 }
 ```
 
+# 前缀树
+
+- 如 `Srting[] strs = {"abc", "abd", "bcd", "abde", "badc", "cacd"};`
+- 将字符串的每个字母遍历加到树上, 通过某一节点 则此节点pass++, 若结尾则end++, 最终得到下图
+
+![](img/datastruct_pretree.png)
+
+> 说明: pass=通过此节点的数量 end=以此节点结尾的数量
+
+## 优势
+
+1. 可以快速获得以某个字符串为前缀的字符串个数
+
+
 # Hash表   (k,v)表
 
 HashMap  增删改查 都是O(1) 但常数时间是比较大的
