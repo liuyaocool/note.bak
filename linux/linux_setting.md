@@ -1,3 +1,14 @@
+# 网络
+
+## 虚拟网卡
+
+```bash
+# 临时
+sudo ip addr add ip/掩码 dev 所属网卡 label 网卡标签
+# 例:
+sudo ip addr add 172.21.2.61/24 dev enp12s0 label 网卡标签
+```
+
 # ssh
 
 ## 免密登录
