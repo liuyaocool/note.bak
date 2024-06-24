@@ -32,6 +32,7 @@
     },{
         "name": "虚拟化技术",
         "child": [
+            ["kvm", "virtual/kvm.md"],
             ["podman", "virtual/podman.md"]
         ]
     },{
@@ -43,6 +44,7 @@
         "name": "其他",
         "child": [
             ["软件配置", "other/soft_setting.md"],
+            ["windows", "other/windows.md"],
             ["mac", "other/mac.md"],
             ["git", "other/git.md"]
         ]

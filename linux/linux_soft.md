@@ -334,3 +334,7 @@ regular4=d2e327
 # zsh-autosuggestions
 bright0=8C979F
 ```
+
+# 常用软件全名
+
+- nc: openbsd-netcat
