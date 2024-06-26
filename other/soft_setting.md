@@ -55,7 +55,7 @@ Main menu
             Previous Method             --> alt up
             Go to Declaration or Usages     --> ctrl up
             Go to Implementation(s)         --> ctrl down
-#            File Structure                  --> ctrl 0
+            File Structure                  --> ctrl 0
         Goto By Name Actions
             Go to File...               --> Ctrl+P
     Build
@@ -72,7 +72,7 @@ Main menu
             Close Tab   --> ctrl w
 Tool Windows
     Terminal            --> alt t
-    Structure           --> ctrl 0
+#    Structure           --> ctrl 0
 Plugins
     FTP/SFTP Connectivity
         Upload Current Remote File  -> alt s
