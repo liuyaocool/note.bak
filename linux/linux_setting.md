@@ -232,4 +232,5 @@ Mathematical font: Source Code Pro
 ```sh
 Fonts fot: Simplified Chinese
 # all set to PingFang SC
+等宽字体: SourceCodeVF
 ```

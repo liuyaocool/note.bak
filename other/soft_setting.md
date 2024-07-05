@@ -136,3 +136,7 @@ Editor
     "itemUrl": "https://marketplace.visualstudio.com/items"
 }
 ```
+
+## 插件推荐
+
+- sftp(Natizyskunk  natan-fourie.fr)
