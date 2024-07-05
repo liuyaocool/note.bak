@@ -1,6 +1,6 @@
 # QEMU/KVM 虚拟机
 
-## 安装
+## archlinux安装
 
 ```bash
 sudo pacman -S libvirt 
