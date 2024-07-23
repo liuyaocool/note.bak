@@ -112,3 +112,9 @@ https://shimowendang.com/docs/68cd6h3TwygPwx8W/read
 6. 大厂刷题班 找新题看
 
 ACM比赛
+
+# 比赛相关
+
+## 预估题目复杂度
+
+预计 10^8 ~10^9 条指令, c语言预计1~2s, java 预计 2~4s

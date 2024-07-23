@@ -31,6 +31,123 @@
 
 ` n1 -> n2 -> n3 -> n4 `
 
+## 判断有环并返回入环节点
+
+1. 快慢指针, 快指针一次两步, 慢指针一次一步
+2. 指针相遇, 快指针指向头部并一次一步
+3. 指针二次相遇 即入环节点
+
+# 二叉数
+
+## 类
+
+```java
+public class Node<T> {
+   public T v;
+   public Node<T> left;
+   public Node<T> right;
+   public Node(T v) { this.v = v; }
+   public Node(T v, Node<T> left, Node<T> right) {
+      this.v = v;
+      this.left = left;
+      this.right = right;
+   }
+}
+
+```
+
+## 先序遍历: 头 左 右
+
+```
+     a
+   /   \
+  b     c      --> a b d e c f g
+ / \   / \
+d   e f   g
+```
+
+```java
+public void printPreorder(Node head) {
+   if (null == head) return;
+   System.out.print(head.v);
+   printPreorder(head.left);
+   printPreorder(head.right);
+}
+```
+
+## 中序遍历: 左 头 右
+
+```
+     a
+   /   \
+  b     c      --> d b e a f c g
+ / \   / \
+d   e f   g
+```
+
+```java
+public void printInOrder(Node head) {
+   if (null == head) return;
+   printInOrder(head.left);
+   System.out.print(head.v);
+   printInOrder(head.right);
+}
+```
+
+## 后序遍历: 左 右 头
+
+```
+     a
+   /   \
+  b     c      --> d e b f g c a
+ / \   / \
+d   e f   g
+```
+
+```java
+public void printPostorder(Node head) {
+   if (null == head) return;
+   printPostorder(head.left);
+   printPostorder(head.right);
+   System.out.print(head.v);
+}
+```
+
+## 递归序
+
+```
+     a
+   /   \
+  b     c      --> 
+ / \   / \
+d   e f   g
+```
+
+## 按层遍历
+
+```
+     a
+   /   \
+  b     c      --> a b c d e f g
+ / \   / \
+d   e f   g
+```
+
+```java
+// setp 先将 head(a) 进队列, a出队列, 将出队a的左、右节点依次进队列, 然后再出队列 ...
+public void printByLevel(Node head) {
+   Queue<Node> q = new LinkedList<>();
+   q.add(head);
+   Node n;
+   do {
+      n = q.poll();
+      System.out.print(n.v); // 执行操作
+      if (null != n.left) q.add(n.left);
+      if (null != n.right) q.add(n.right);
+   } while (!q.isEmpty());
+}
+```
+
 
 # 完全二叉树
 
